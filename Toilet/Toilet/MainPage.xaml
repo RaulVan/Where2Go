@@ -184,7 +184,7 @@
 				<RowDefinition Height="150"/>
 			</Grid.RowDefinitions>
             
-			<Button Canvas.ZIndex="100" Canvas.Left="20" Grid.Column="1" Grid.Row="1"   x:Name="btnLoaction"  HorizontalAlignment="Left"  VerticalAlignment="Top"  Style="{StaticResource btnLoactionStyle}"/>
+			<Button Canvas.ZIndex="100" Canvas.Left="20" Grid.Column="1" Grid.Row="1"   x:Name="btnLoaction"  HorizontalAlignment="Left"  VerticalAlignment="Top"  Style="{StaticResource btnLoactionStyle}" Click="btnLoaction_Click"/>
             
            
 			<Grid x:Name="mapPanel" Grid.ColumnSpan="3" Grid.RowSpan="2"/>

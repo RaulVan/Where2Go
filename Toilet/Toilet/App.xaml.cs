@@ -61,6 +61,8 @@ namespace Toilet
         // 此代码在重新激活应用程序时不执行
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+            Com.AMap.Maps.Api.AMapConfig.Key = "1e4203f2ca6b055a0c24d1b41d772298";//
+            Com.AMap.Api.Services.AMapSearchConfig.Key = "1e4203f2ca6b055a0c24d1b41d772298";//
         }
 
         // 激活应用程序(置于前台)时执行的代码

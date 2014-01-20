@@ -47,8 +47,7 @@ namespace Toilet
             map.Children.Add(mapToiletLayer);
             map.Zoom = 11d;
             map.ToolBar = Visibility.Visible;
-            Com.AMap.Maps.Api.AMapConfig.Key = "1e4203f2ca6b055a0c24d1b41d772298";//
-            AMapSearchConfig.Key = "1e4203f2ca6b055a0c24d1b41d772298";//
+          
             // 用于本地化 ApplicationBar 的示例代码
             //BuildLocalizedApplicationBar();
             this.Loaded += MainPage_Loaded;
@@ -352,6 +351,16 @@ namespace Toilet
         {
         	// 在此处添加事件处理程序实现。
             //NavigationService.Navigate(new Uri("/SettingPage.xaml", UriKind.Relative));
+        }
+
+        /// <summary>
+        /// 定位按钮事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnLoaction_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
       
