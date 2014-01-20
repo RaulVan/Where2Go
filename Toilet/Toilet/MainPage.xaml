@@ -111,9 +111,95 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
-	</phone:PhoneApplicationPage.Resources>
-    
-	<phone:PhoneApplicationPage.FontFamily>
+        <Style x:Key="btnNaviStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{StaticResource PhoneForegroundBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
+            <Setter Property="BorderThickness" Value="{StaticResource PhoneBorderThickness}"/>
+            <Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilySemiBold}"/>
+            <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMedium}"/>
+            <Setter Property="Padding" Value="10,5,10,6"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+
+                        <Grid Width="48" Height="48">
+                            <Grid.Resources>
+                                <Storyboard x:Name="Storyboard1"/>
+                            </Grid.Resources>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualStateGroup.Transitions>
+                                        <VisualTransition GeneratedDuration="0"/>
+                                    </VisualStateGroup.Transitions>
+                                    <VisualState x:Name="Unfocused"/>
+                                    <VisualState x:Name="Focused">
+                                        <!--<Storyboard>
+                                            <ColorAnimation Duration="0" To="#FF867F8F" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="Stroke" d:IsOptimized="True"/>
+                                            <ColorAnimation Duration="0" To="#FFF14447" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="path" d:IsOptimized="True"/>
+                                            <DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="path" d:IsOptimized="True"/>
+                                            <DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.LocalOffsetX)" Storyboard.TargetName="path" d:IsOptimized="True"/>
+                                            <DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.LocalOffsetX)" Storyboard.TargetName="Stroke" d:IsOptimized="True"/>
+                                        </Storyboard>-->
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                    		<DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.LocalOffsetX)" Storyboard.TargetName="Stroke" d:IsOptimized="True"/>
+                                    		<DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.LocalOffsetX)" Storyboard.TargetName="path" d:IsOptimized="True"/>
+                                    		<DoubleAnimation Duration="0" To="2" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.GlobalOffsetX)" Storyboard.TargetName="path" d:IsOptimized="True"/>
+                                    		<DoubleAnimation Duration="0" To="2" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.GlobalOffsetX)" Storyboard.TargetName="Stroke" d:IsOptimized="True"/>
+                                    		<ColorAnimation Duration="0" To="#FFF9F9F9" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="Stroke" d:IsOptimized="True"/>
+                                    		<ColorAnimation Duration="0" To="#FF55CAF5" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="path" d:IsOptimized="True"/>
+                                    		<DoubleAnimation Duration="0" To="2" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.GlobalOffsetX)" Storyboard.TargetName="ellipse" d:IsOptimized="True"/>
+                                    		<DoubleAnimation Duration="0" To="0.48" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="ellipse" d:IsOptimized="True"/>
+                                    	</Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="Disabled"/>
+                                    <VisualState x:Name="MouseOver"/>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Grid x:Name="backgroundGrid" Width="48" Height="48" Visibility="Visible">
+                                <Ellipse x:Name="ellipse" Fill="#FFBFBFBF" HorizontalAlignment="Left" Height="44" Margin="2,2,0,0" VerticalAlignment="Top" Width="44" Opacity="0.045">
+                                    <Ellipse.Projection>
+                                        <PlaneProjection/>
+                                    </Ellipse.Projection>
+                                </Ellipse>
+                                <Path Data="M50.5,4.7500001C25.232973,4.75 4.75,25.232973 4.7500001,50.5 4.75,75.767029 25.232973,96.25 50.5,96.25 75.767029,96.25 96.25,75.767029 96.25,50.5 96.25,25.232973 75.767029,4.75 50.5,4.7500001z M50.5,0C78.390381,0 101,22.609621 101,50.5 101,78.390381 78.390381,101 50.5,101 22.609621,101 0,78.390381 0,50.5 0,22.609621 22.609621,0 50.5,0z" Stretch="Fill" Fill="#FF867F8F" x:Name="Stroke" Visibility="Visible" UseLayoutRounding="False" Margin="2" Width="44" Height="44" >
+                                    <Path.Projection>
+                                        <PlaneProjection/>
+                                    </Path.Projection>
+                                </Path>
+                            </Grid>
+                            <!--<Path x:Name="path" Data="F1M194.839,1498.05L197.862,1472.28 221.708,1480.97 174.858,1433.31 194.839,1498.05z"
+                            Stretch="Uniform" Fill="#FFF14447" Width="34" Height="34" Margin="4.5,15,9.5,-1" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False">
+                                <Path.Projection>
+                                    <PlaneProjection/>
+                                </Path.Projection>
+                                <Path.RenderTransform>
+                                    <CompositeTransform Rotation="68"/>
+                                </Path.RenderTransform>
+                            </Path>-->
+                            <Path x:Name="path" 
+                                  Data="M-1803.39,-939.073C-1813.86,-939.073 -1822.34,-930.589 -1822.34,-920.126 -1822.34,-916.45 -1821.29,-913.022 -1819.48,-910.119L-1811.54,-893.476 -1803.39,-876.405 -1795.25,-893.476 -1787.31,-910.115C-1785.49,-913.021 -1784.45,-916.449 -1784.45,-920.126 -1784.45,-930.589 -1792.93,-939.073 -1803.39,-939.073 M-1803.39,-909.656C-1808.8,-909.656 -1813.18,-914.039 -1813.18,-919.448 -1813.18,-924.854 -1808.8,-929.24 -1803.39,-929.24 -1797.98,-929.24 -1793.6,-924.854 -1793.6,-919.448 -1793.6,-914.039 -1797.98,-909.656 -1803.39,-909.656" 
+                                  Stretch="Uniform" Fill="#FF5A04F1" Width="26" Height="26" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False">
+                                <Path.Projection>
+                                    <PlaneProjection/>
+                                </Path.Projection>
+                                <Path.RenderTransform>
+                                    <CompositeTransform/>
+                                </Path.RenderTransform>
+                            </Path>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </phone:PhoneApplicationPage.Resources>
+   
+    <phone:PhoneApplicationPage.FontFamily>
 		<StaticResource ResourceKey="PhoneFontFamilyNormal"/>
 	</phone:PhoneApplicationPage.FontFamily>
 	<phone:PhoneApplicationPage.FontSize>
@@ -184,8 +270,8 @@
 				<RowDefinition Height="150"/>
 			</Grid.RowDefinitions>
             
-			<Button Canvas.ZIndex="100" Canvas.Left="20" Grid.Column="1" Grid.Row="1"   x:Name="btnLoaction"  HorizontalAlignment="Left"  VerticalAlignment="Top"  Style="{StaticResource btnLoactionStyle}" Click="btnLoaction_Click"/>
-            
+			<!--<Button Canvas.ZIndex="100" Canvas.Left="20" Grid.Column="1" Grid.Row="1"   x:Name="btnLoaction"  HorizontalAlignment="Left"  VerticalAlignment="Top"  Style="{StaticResource btnLoactionStyle}" Click="btnLoaction_Click"/>-->
+            <Button Canvas.ZIndex="100" Canvas.Left="20" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Top"  Content="导航" x:Name="btnLoaction" RenderTransformOrigin="0.5,0.5" Style="{StaticResource btnNaviStyle}" Width="48"  Click="btnLoaction_Click" />
            
 			<Grid x:Name="mapPanel" Grid.ColumnSpan="3" Grid.RowSpan="2"/>
 		</Grid>

@@ -30,7 +30,7 @@ namespace Toilet
         MMap map;
         MapLayer mapLocationLayer;
         MapLayer mapToiletLayer;
-        
+
         MMarker myLoaction;
         MLngLat mLngLat;
         MCircle mCircle;
@@ -47,37 +47,44 @@ namespace Toilet
             map.Children.Add(mapToiletLayer);
             map.Zoom = 11d;
             map.ToolBar = Visibility.Visible;
-          
+
             // 用于本地化 ApplicationBar 的示例代码
             //BuildLocalizedApplicationBar();
             this.Loaded += MainPage_Loaded;
             map.MapLoaded += map_MapLoaded;
-           // map.Hold += map_Hold;
+            // map.Hold += map_Hold;
 
             Canvas.SetTop(btnLoaction, this.LayoutRoot.ActualHeight - 20);
         }
 
         void MainPage_Loaded(object sender, RoutedEventArgs e)
         {
-            if (!AppConfig.IsOpenGeo)
+            try
             {
-                MessageBoxResult msgResult = MessageBox.Show("需要开启定位", "运行定位", MessageBoxButton.OKCancel);
-                if (msgResult.Equals(MessageBoxResult.OK))
+                if (!AppConfig.IsOpenGeo)
                 {
-                    AppConfig.IsOpenGeo = true;//不再提示
+                    MessageBoxResult msgResult = MessageBox.Show("需要开启定位", "运行定位", MessageBoxButton.OKCancel);
+                    if (msgResult.Equals(MessageBoxResult.OK))
+                    {
+                        AppConfig.IsOpenGeo = true;//不再提示
 
+                        geo = new AMapGeolocator();
+
+                        geo.Start();
+                        geo.PositionChanged += geo_PositionChanged;
+                    }
+                }
+                else
+                {
                     geo = new AMapGeolocator();
 
                     geo.Start();
                     geo.PositionChanged += geo_PositionChanged;
                 }
             }
-            else
+            catch (Exception ex)
             {
-                geo = new AMapGeolocator();
-
-                geo.Start();
-                geo.PositionChanged += geo_PositionChanged;
+                Debug.WriteLine("MainPage_Loaded:" + ex.Message);
             }
         }
 
@@ -88,8 +95,8 @@ namespace Toilet
         /// <param name="e"></param>
         void map_Hold(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            MLngLat lngLat= map.FromScreenPixelToLngLat(e.GetPosition(map));
-            mCircle= new MCircle(lngLat, 1000);
+            MLngLat lngLat = map.FromScreenPixelToLngLat(e.GetPosition(map));
+            mCircle = new MCircle(lngLat, 1000);
             mCircle.FillOpacity = 0.3;
             mCircle.FillColor = Colors.Blue;
             mCircle.LineColor = Colors.Blue;
@@ -98,7 +105,7 @@ namespace Toilet
             HoldSearchGeoToAddress(lngLat);
             SearchKeyWordToilet(lngLat, 1000);
             //mapToiletLayer.SetFitview(GetMapMarker());
-            
+
         }
 
         /// <summary>
@@ -116,11 +123,11 @@ namespace Toilet
             //    IsEditable = true,
             //    Anchor = new Point(0.5, 1)
             //});
-           
+
 
 
         }
-      
+
         /// <summary>
         /// 搜索厕所
         /// </summary>
@@ -131,45 +138,53 @@ namespace Toilet
             //AMapFilterOption option=new AMapFilterOption ();
             //option.Groupbuy=false;
             //option.Discount=false;
-            AMapPOIResults pois = await AMapPOISearch.POIAround(mlnglat.LngX, mlnglat.LatY, "公厕|厕所|洗手间|麦当劳|肯德基|必胜客|德克士", "", false, false, radios, 0, 100, 1, Extensions.All);
-            this.Dispatcher.BeginInvoke(() =>
+
+            try
             {
-
-                if (pois.Erro != null)
-                {
-                    return;
-                }
-                if (pois.POIList == null)
+                AMapPOIResults pois = await AMapPOISearch.POIAround(mlnglat.LngX, mlnglat.LatY, "公厕|厕所|洗手间|麦当劳|肯德基|必胜客|德克士", "", false, false, radios, 0, 100, 1, Extensions.All);
+                this.Dispatcher.BeginInvoke(() =>
                 {
 
-                }
-                List<MOverlay> list = new List<MOverlay>();
-                foreach (AMapPOI poi in pois.POIList.ToList())
-                {
-                    //MMarker mm;
-                    //map.Children.Add(mm = new MMarker()
-                    //    {
-                    //        LngLat = new Com.AMap.Maps.Api.BaseTypes.MLngLat(poi.Location.Lon, poi.Location.Lat),
-                    //        IconURL = "/Image/AZURE.png"
-                    //    });
-                    MMarker Marker;
-                    mapToiletLayer.Children.Add(Marker = new MMarker()
+                    if (pois.Erro != null)
                     {
-                        LngLat = new Com.AMap.Maps.Api.BaseTypes.MLngLat(poi.Location.Lon, poi.Location.Lat),
-                        //IsEditable = true,
-                        Anchor = new Point(0.5, 1),
-                        IconURL = "Images/54x74.png",
-                        // TipFrameworkElement = new TolietTip(){ TolietText = poi.Name }
-                        TipFrameworkElement =tip=new ToiletTip () { Text = poi.Name,MarkerAMapPOI=poi },
-                    });
+                        return;
+                    }
+                    if (pois.POIList == null)
+                    {
 
-                    tip.TapNavigation += tip_TapNavigation;
-                    list.Add(Marker);
-                    Debug.WriteLine(poi.Name.ToString());
-                }
-                map.SetFitview(list);
+                    }
+                    List<MOverlay> list = new List<MOverlay>();
+                    foreach (AMapPOI poi in pois.POIList.ToList())
+                    {
+                        //MMarker mm;
+                        //map.Children.Add(mm = new MMarker()
+                        //    {
+                        //        LngLat = new Com.AMap.Maps.Api.BaseTypes.MLngLat(poi.Location.Lon, poi.Location.Lat),
+                        //        IconURL = "/Image/AZURE.png"
+                        //    });
+                        MMarker Marker;
+                        mapToiletLayer.Children.Add(Marker = new MMarker()
+                        {
+                            LngLat = new Com.AMap.Maps.Api.BaseTypes.MLngLat(poi.Location.Lon, poi.Location.Lat),
+                            //IsEditable = true,
+                            Anchor = new Point(0.5, 1),
+                            IconURL = "Images/54x74.png",
+                            // TipFrameworkElement = new TolietTip(){ TolietText = poi.Name }
+                            TipFrameworkElement = tip = new ToiletTip() { Text = poi.Name, MarkerAMapPOI = poi },
+                        });
 
-            });
+                        tip.TapNavigation += tip_TapNavigation;
+                        list.Add(Marker);
+                        Debug.WriteLine(poi.Name.ToString());
+                    }
+                    map.SetFitview(list);
+
+                });
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("SearchKeyWordToilet:" + ex.Message);
+            }
         }
 
         void tip_TapNavigation(object sender, TapNavigationEventArgs e)
@@ -183,19 +198,26 @@ namespace Toilet
         /// <param name="e"></param>
         private void ApplicationBarIconButton_Click(object sender, EventArgs e)
         {
-            if (geo == null)
+            try
             {
-                mapToiletLayer.Children.Clear();
-                geo = new AMapGeolocator();
-                geo.Start();
-                geo.PositionChanged += geo_PositionChanged;
-            }
-            else if(geo!=null)
-            {
-                geo.Start();
-                geo.PositionChanged += geo_PositionChanged;
-            }
+                if (geo == null)
+                {
+                    mapToiletLayer.Children.Clear();
+                    geo = new AMapGeolocator();
+                    geo.Start();
+                    geo.PositionChanged += geo_PositionChanged;
+                }
+                else if (geo != null)
+                {
+                    geo.Start();
+                    geo.PositionChanged += geo_PositionChanged;
+                }
 
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("ApplicationBarIconButton_Click:" + ex.Message);
+            }
 
 
         }
@@ -221,15 +243,22 @@ namespace Toilet
         /// <param name="mlnglat"></param>
         private async void SearchGeoToAddress(MLngLat mlnglat)
         {
-            AMapReGeoCodeResult rgrc = await AMapReGeoCodeSearch.GeoCodeToAddress(mlnglat.LngX, mlnglat.LatY);
-            if (rgrc.Erro!=null)
+            try
             {
-                return;
-            } 
-            if (rgrc.ReGeoCode!=null)
+                AMapReGeoCodeResult rgrc = await AMapReGeoCodeSearch.GeoCodeToAddress(mlnglat.LngX, mlnglat.LatY);
+                if (rgrc.Erro != null)
+                {
+                    return;
+                }
+                if (rgrc.ReGeoCode != null)
+                {
+                    myLoaction.TipFrameworkElement = new MTip() { ContentText = rgrc.ReGeoCode.Formatted_address };
+
+                }
+            }
+            catch (Exception ex)
             {
-            myLoaction.TipFrameworkElement = new MTip() { ContentText = rgrc.ReGeoCode.Formatted_address };
-                
+                Debug.WriteLine("SearchGeoToAddress:" + ex.Message);
             }
 
 
@@ -238,57 +267,73 @@ namespace Toilet
         /// 长按查找
         /// </summary>
         /// <param name="mlnglat"></param>
+        [Obsolete]
         private async void HoldSearchGeoToAddress(MLngLat mlnglat)
         {
-            AMapReGeoCodeResult rgrc = await AMapReGeoCodeSearch.GeoCodeToAddress(mlnglat.LngX, mlnglat.LatY);
+            try
+            {
 
-            mapToiletLayer.Children.Add(new MMarker() { LngLat = mlnglat, IconURL = "Images/AZURE.png", TipFrameworkElement = new MTip() { ContentText = rgrc.ReGeoCode.Formatted_address } });
+                AMapReGeoCodeResult rgrc = await AMapReGeoCodeSearch.GeoCodeToAddress(mlnglat.LngX, mlnglat.LatY);
 
+                mapToiletLayer.Children.Add(new MMarker() { LngLat = mlnglat, IconURL = "Images/AZURE.png", TipFrameworkElement = new MTip() { ContentText = rgrc.ReGeoCode.Formatted_address } });
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("HoldSearchGeoToAddress:" + ex.Message);
+            }
         }
 
         private async void SearchWalking(MLngLat stat, MLngLat end)
         {
-            AMapRouteResults rr = await AMapNavigationSearch.WalkingNavigation(stat.LngX, stat.LatY, end.LngX, end.LatY);
-            if (rr.Erro!=null)
+            try
             {
-                return;
-            }
-            if (rr.Route!=null&&rr.Count!=0)
-            {
-                AMapRoute route = rr.Route;
-                List<AMapPath> paths = route.Paths.ToList();
-                MLngLatCollection lnglats = new MLngLatCollection ();
-                foreach (AMapPath path in paths)
+                AMapRouteResults rr = await AMapNavigationSearch.WalkingNavigation(stat.LngX, stat.LatY, end.LngX, end.LatY);
+                if (rr.Erro != null)
                 {
-                    //画路线
-                    List<AMapStep> steps = path.Steps.ToList();
-                    foreach (AMapStep st in steps)
+                    return;
+                }
+                if (rr.Route != null && rr.Count != 0)
+                {
+                    AMapRoute route = rr.Route;
+                    List<AMapPath> paths = route.Paths.ToList();
+                    MLngLatCollection lnglats = new MLngLatCollection();
+                    foreach (AMapPath path in paths)
                     {
+                        //画路线
+                        List<AMapStep> steps = path.Steps.ToList();
+                        foreach (AMapStep st in steps)
+                        {
 
-                        //amap.AddMarker(new AMapMarkerOptions()
-                        //{
-                        //    Position = latLagsFromString(st.Polyline).FirstOrDefault(),
-                        //    Title = "Title",
-                        //    Snippet = "Snippet",
-                        //    IconUri = new Uri("Images/man.png", UriKind.Relative),
-                        //});
-                        Debug.WriteLine(st.Instruction);
-                        Debug.WriteLine(st.Road);
-                        Debug.WriteLine(st.Assistant_action);
-                        lnglats = latLagsFromString(st.Polyline);
-                       
-                        MPolyline walkPolyling = new MPolyline(lnglats);
-                        walkPolyling.LineThickness = 4;
-                        walkPolyling.LineColor = Color.FromArgb(255, 0, 0, 255);
-                        mapToiletLayer.Children.Add(walkPolyling);
-                        //amap.AddPolyline(new AMapPolylineOptions()
-                        //{
-                        //    Points = latLagsFromString(st.Polyline),
-                        //    Color = Color.FromArgb(255, 0, 0, 255),
-                        //    Width = 4,
-                        //});
+                            //amap.AddMarker(new AMapMarkerOptions()
+                            //{
+                            //    Position = latLagsFromString(st.Polyline).FirstOrDefault(),
+                            //    Title = "Title",
+                            //    Snippet = "Snippet",
+                            //    IconUri = new Uri("Images/man.png", UriKind.Relative),
+                            //});
+                            Debug.WriteLine(st.Instruction);
+                            Debug.WriteLine(st.Road);
+                            Debug.WriteLine(st.Assistant_action);
+                            lnglats = latLagsFromString(st.Polyline);
+
+                            MPolyline walkPolyling = new MPolyline(lnglats);
+                            walkPolyling.LineThickness = 4;
+                            walkPolyling.LineColor = Color.FromArgb(255, 0, 0, 255);
+                            mapToiletLayer.Children.Add(walkPolyling);
+                            //amap.AddPolyline(new AMapPolylineOptions()
+                            //{
+                            //    Points = latLagsFromString(st.Polyline),
+                            //    Color = Color.FromArgb(255, 0, 0, 255),
+                            //    Width = 4,
+                            //});
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("SearchWalking:" + ex.Message);
             }
         }
         private List<MOverlay> GetMapMarker()
@@ -299,11 +344,16 @@ namespace Toilet
                 if (mOverlay is MMarker)
                 {
                     list.Add(mOverlay as MMarker);
-                } 
+                }
             }
             return list;
         }
 
+        /// <summary>
+        /// 经纬度字符串转成经纬度集合
+        /// </summary>
+        /// <param name="polyline"></param>
+        /// <returns></returns>
         private MLngLatCollection latLagsFromString(string polyline)
         {
             MLngLatCollection latlngs = new MLngLatCollection();
@@ -312,36 +362,47 @@ namespace Toilet
             foreach (String str in arrystring)
             {
                 String[] lnglatds = str.Split(new char[] { ',' });
-                latlngs.Add(new  MLngLat(Double.Parse(lnglatds[1]), Double.Parse(lnglatds[0])));
+                latlngs.Add(new MLngLat(Double.Parse(lnglatds[1]), Double.Parse(lnglatds[0])));
             }
             return latlngs;
 
         }
 
+        /// <summary>
+        /// 定位位置变化
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         void geo_PositionChanged(AMapGeolocator sender, AMapPositionChangedEventArgs args)
         {
             this.Dispatcher.BeginInvoke(() =>
             {
+                try
+                {
+                    if (myLoaction == null)
+                    {
+                        myLoaction = new MMarker() { LngLat = new Com.AMap.Maps.Api.BaseTypes.MLngLat(args.LngLat.longitude, args.LngLat.latitude), IconURL = "/Images/location_on.png" };
 
-                if (myLoaction == null)
-                {
-                    myLoaction = new MMarker() { LngLat = new Com.AMap.Maps.Api.BaseTypes.MLngLat(args.LngLat.longitude, args.LngLat.latitude), IconURL = "/Images/location_on.png" };
-
+                    }
+                    if (!mapLocationLayer.Children.Contains(myLoaction))
+                    {
+                        mapLocationLayer.Children.Add(myLoaction);
+                    }
+                    else
+                    {
+                        myLoaction.LngLat = new Com.AMap.Maps.Api.BaseTypes.MLngLat(args.LngLat.longitude, args.LngLat.latitude);
+                    }
+                    map.Center = new Com.AMap.Maps.Api.BaseTypes.MLngLat(args.LngLat.longitude, args.LngLat.latitude);
+                    SearchKeyWordToilet(myLoaction.LngLat, 1000);
+                    // mLngLat = new Com.AMap.Maps.Api.BaseTypes.MLngLat(args.LngLat.longitude, args.LngLat.latitude);
+                    geo.PositionChanged -= geo_PositionChanged;
+                    geo.Stop();
+                    geo = null;
                 }
-                if (!mapLocationLayer.Children.Contains(myLoaction))
+                catch (Exception ex)
                 {
-                   mapLocationLayer.Children.Add(myLoaction);
+                    Debug.WriteLine("geo_PositionChanged:" + ex.Message);
                 }
-                else
-                {
-                    myLoaction.LngLat = new Com.AMap.Maps.Api.BaseTypes.MLngLat(args.LngLat.longitude, args.LngLat.latitude);
-                }
-                map.Center = new Com.AMap.Maps.Api.BaseTypes.MLngLat(args.LngLat.longitude, args.LngLat.latitude);
-                SearchKeyWordToilet(myLoaction.LngLat, 1000);
-                // mLngLat = new Com.AMap.Maps.Api.BaseTypes.MLngLat(args.LngLat.longitude, args.LngLat.latitude);
-                geo.PositionChanged -= geo_PositionChanged;
-                geo.Stop();
-                geo = null;
             });
 
 
@@ -349,7 +410,7 @@ namespace Toilet
 
         private void Setting_Click(object sender, System.EventArgs e)
         {
-        	// 在此处添加事件处理程序实现。
+            // 在此处添加事件处理程序实现。
             //NavigationService.Navigate(new Uri("/SettingPage.xaml", UriKind.Relative));
         }
 
@@ -360,35 +421,66 @@ namespace Toilet
         /// <param name="e"></param>
         private void btnLoaction_Click(object sender, RoutedEventArgs e)
         {
+            //TODO:重新定位后的操作，定位+搜索,应该需要删除之前的点
+            try
+            {
+                mapToiletLayer.Children.Clear();
 
+
+                if (!AppConfig.IsOpenGeo)
+                {
+                    MessageBoxResult msgResult = MessageBox.Show("需要开启定位", "运行定位", MessageBoxButton.OKCancel);
+                    if (msgResult.Equals(MessageBoxResult.OK))
+                    {
+                        AppConfig.IsOpenGeo = true;//不再提示
+
+                        geo = new AMapGeolocator();
+
+                        geo.Start();
+                        geo.PositionChanged += geo_PositionChanged;
+                    }
+                }
+                else
+                {
+                    geo = new AMapGeolocator();
+
+                    geo.Start();
+                    geo.PositionChanged += geo_PositionChanged;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
 
-      
+
 
         //protected override void OnNavigatedTo(NavigationEventArgs e)
         //{
-            //if (!AppConfig.IsOpenGeo)
-            //{
-            //    MessageBoxResult msgResult = MessageBox.Show("需要开启定位", "运行定位", MessageBoxButton.OKCancel);
-            //    if (msgResult.Equals(MessageBoxResult.OK))
-            //    {
-            //        AppConfig.IsOpenGeo = true;//不再提示
+        //if (!AppConfig.IsOpenGeo)
+        //{
+        //    MessageBoxResult msgResult = MessageBox.Show("需要开启定位", "运行定位", MessageBoxButton.OKCancel);
+        //    if (msgResult.Equals(MessageBoxResult.OK))
+        //    {
+        //        AppConfig.IsOpenGeo = true;//不再提示
 
-            //        geo = new AMapGeolocator();
+        //        geo = new AMapGeolocator();
 
-            //        geo.Start();
-            //        geo.PositionChanged += geo_PositionChanged;
-            //    }
-            //}
-            //else
-            //{
-            //    geo = new AMapGeolocator();
+        //        geo.Start();
+        //        geo.PositionChanged += geo_PositionChanged;
+        //    }
+        //}
+        //else
+        //{
+        //    geo = new AMapGeolocator();
 
-            //    geo.Start();
-            //    geo.PositionChanged += geo_PositionChanged;
-            //}
+        //    geo.Start();
+        //    geo.PositionChanged += geo_PositionChanged;
+        //}
 
-           // base.OnNavigatedTo(e);
+        // base.OnNavigatedTo(e);
         //}
 
         //void watcher_PositionChanged(object sender, Com.AMap.Maps.Api.Events.AGeoPositionChangedEventArgs e)
