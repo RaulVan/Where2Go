@@ -16,38 +16,34 @@
     <!--LayoutRoot 是包含所有页面内容的根网格-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Grid.RowDefinitions>
-            <!--<RowDefinition Height="Auto"/>-->
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!--TitlePanel 包含应用程序的名称和页标题-->
-        <!--<StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="我的应用程序" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock Text="" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
-        </StackPanel>-->
+        <StackPanel Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock Text="关于" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+        </StackPanel>
 
         <!--ContentPanel - 在此处放置其他内容-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <phone:Pivot >
-                <phone:PivotItem Header="设置">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <StackPanel>
-                            <CheckBox x:Name="ckIsActiveGPS" Content="是否开启定位"  Checked="ckIsActiveGPS_Checked" IsChecked="True"/>
-                            <CheckBox Content="是否后台运行" Visibility="Collapsed"/>
-                           
-                        </StackPanel>
-                    </Grid>
-                </phone:PivotItem>
-                <phone:PivotItem Header="关于">
-                    <Grid>
-                        <TextBlock  TextWrapping="Wrap" Text="     WhereToGo是基于高德地图API开发的，解决内急问题的APP。" Margin="12,0,0,0"/>
-                    </Grid>
-                </phone:PivotItem>
-            </phone:Pivot>
+         
+                <Grid>
+                    <StackPanel Orientation="Vertical">
+                    
+                        <TextBlock/>
+                        <TextBlock  TextWrapping="Wrap" >
+                    			<Span/>
+                    			<Run Text="     WhereToGo是基于高德地图API开发的，解决内急问题的APP。操作简单，定位查询、步行导航。"/>
+
+                        </TextBlock>
+                        <TextBlock>反馈Email:</TextBlock>
+                        <TextBlock  Margin="20,0,0,0" Tap="TextBlock_Tap">
+                    			<Run Text="vanraul@outlook.com (点我)"/>
+                        </TextBlock>
+                    <TextBlock><Run>感谢使用</Run></TextBlock>
+                </StackPanel>
+                </Grid>
         </Grid>
     </Grid>
 

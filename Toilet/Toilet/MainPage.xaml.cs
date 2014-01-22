@@ -27,15 +27,14 @@ namespace Toilet
     public partial class MainPage : PhoneApplicationPage
     {
 
-        MMap map;
-        MapLayer mapLocationLayer;
-        MapLayer mapToiletLayer;
-
-        MMarker myLoaction;
-        MLngLat mLngLat;
+        MMap map;//地图
+        MapLayer mapLocationLayer;//定位图层
+        MapLayer mapToiletLayer;//卫生间点图层
+        MapLayer mapWalkingLayer;//步行路径图层
+        MMarker myLoaction;//定位点
         MCircle mCircle;
-        AMapGeolocator geo;
-        ToiletTip tip;
+        AMapGeolocator geo;//用于高德地图的定位
+        ToiletTip tip;//弹窗
         // 构造函数
         public MainPage()
         {
@@ -43,6 +42,7 @@ namespace Toilet
             this.mapPanel.Children.Add(map = new MMap());
             mapLocationLayer = new MapLayer();
             map.Children.Add(mapLocationLayer);
+            map.Children.Add(mapWalkingLayer = new MapLayer());
             mapToiletLayer = new MapLayer();
             map.Children.Add(mapToiletLayer);
             map.Zoom = 11d;
@@ -53,7 +53,6 @@ namespace Toilet
             this.Loaded += MainPage_Loaded;
             map.MapLoaded += map_MapLoaded;
             // map.Hold += map_Hold;
-
             Canvas.SetTop(btnLoaction, this.LayoutRoot.ActualHeight - 20);
         }
 
@@ -67,9 +66,7 @@ namespace Toilet
                     if (msgResult.Equals(MessageBoxResult.OK))
                     {
                         AppConfig.IsOpenGeo = true;//不再提示
-
                         geo = new AMapGeolocator();
-
                         geo.Start();
                         geo.PositionChanged += geo_PositionChanged;
                     }
@@ -77,7 +74,6 @@ namespace Toilet
                 else
                 {
                     geo = new AMapGeolocator();
-
                     geo.Start();
                     geo.PositionChanged += geo_PositionChanged;
                 }
@@ -88,25 +84,24 @@ namespace Toilet
             }
         }
 
-        /// <summary>
-        /// 长按
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void map_Hold(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            MLngLat lngLat = map.FromScreenPixelToLngLat(e.GetPosition(map));
-            mCircle = new MCircle(lngLat, 1000);
-            mCircle.FillOpacity = 0.3;
-            mCircle.FillColor = Colors.Blue;
-            mCircle.LineColor = Colors.Blue;
-            mCircle.LineThickness = 2;
-            mapToiletLayer.Children.Add(mCircle);
-            HoldSearchGeoToAddress(lngLat);
-            SearchKeyWordToilet(lngLat, 1000);
-            //mapToiletLayer.SetFitview(GetMapMarker());
-
-        }
+        ///// <summary>
+        ///// 长按
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //void map_Hold(object sender, System.Windows.Input.GestureEventArgs e)
+        //{
+        //    MLngLat lngLat = map.FromScreenPixelToLngLat(e.GetPosition(map));
+        //    mCircle = new MCircle(lngLat, 1000);
+        //    mCircle.FillOpacity = 0.3;
+        //    mCircle.FillColor = Colors.Blue;
+        //    mCircle.LineColor = Colors.Blue;
+        //    mCircle.LineThickness = 2;
+        //    mapToiletLayer.Children.Add(mCircle);
+        //    HoldSearchGeoToAddress(lngLat);
+        //    SearchKeyWordToilet(lngLat, 1000);
+        //    //mapToiletLayer.SetFitview(GetMapMarker());
+        //}
 
         /// <summary>
         /// 初始化加载
@@ -115,17 +110,7 @@ namespace Toilet
         /// <param name="e"></param>
         void map_MapLoaded(object sender, Com.AMap.Maps.Api.Events.MapEventArgs e)
         {
-            //SearchKeyWordToilet();
-            //MMarker editMarker;
-            //map.Children.Add(editMarker = new MMarker()
-            //{
-            //    LngLat = map.Center,
-            //    IsEditable = true,
-            //    Anchor = new Point(0.5, 1)
-            //});
-
-
-
+            
         }
 
         /// <summary>
@@ -189,54 +174,21 @@ namespace Toilet
 
         void tip_TapNavigation(object sender, TapNavigationEventArgs e)
         {
-            MessageBox.Show(e.MarkerAMapPOI.Address);
-        }
-        /// <summary>
-        /// 定位按钮
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ApplicationBarIconButton_Click(object sender, EventArgs e)
-        {
             try
             {
-                if (geo == null)
-                {
-                    mapToiletLayer.Children.Clear();
-                    geo = new AMapGeolocator();
-                    geo.Start();
-                    geo.PositionChanged += geo_PositionChanged;
-                }
-                else if (geo != null)
-                {
-                    geo.Start();
-                    geo.PositionChanged += geo_PositionChanged;
-                }
-
+                this.Dispatcher.BeginInvoke(() =>
+                        {
+                            MLngLat end = new MLngLat(e.MarkerAMapPOI.Location.Lon, e.MarkerAMapPOI.Location.Lat);
+                            mapWalkingLayer.Children.Clear();
+                            SearchWalking(myLoaction.LngLat, end);
+                        });
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("ApplicationBarIconButton_Click:" + ex.Message);
+                Debug.WriteLine("tip_TapNavigation:" + ex.Message);   
             }
-
-
         }
-        /// <summary>
-        /// 搜索按钮
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ApplicationBarIconButton2_Click(object sender, EventArgs e)
-        {
-            if (myLoaction != null)
-            {
-                mapToiletLayer.Children.Clear();
-                SearchGeoToAddress(myLoaction.LngLat);
-                SearchKeyWordToilet(myLoaction.LngLat, 1000);
-            }
-            // SearchGeoToAddress(mLngLat);
-            //SearchKeyWordToilet(mLngLat, 500);
-        }
+       
         /// <summary>
         /// 逆地理编码
         /// </summary>
@@ -298,37 +250,26 @@ namespace Toilet
                     AMapRoute route = rr.Route;
                     List<AMapPath> paths = route.Paths.ToList();
                     MLngLatCollection lnglats = new MLngLatCollection();
+                    List<MOverlay> list = new List<MOverlay>();
                     foreach (AMapPath path in paths)
                     {
                         //画路线
                         List<AMapStep> steps = path.Steps.ToList();
                         foreach (AMapStep st in steps)
                         {
-
-                            //amap.AddMarker(new AMapMarkerOptions()
-                            //{
-                            //    Position = latLagsFromString(st.Polyline).FirstOrDefault(),
-                            //    Title = "Title",
-                            //    Snippet = "Snippet",
-                            //    IconUri = new Uri("Images/man.png", UriKind.Relative),
-                            //});
                             Debug.WriteLine(st.Instruction);
                             Debug.WriteLine(st.Road);
                             Debug.WriteLine(st.Assistant_action);
                             lnglats = latLagsFromString(st.Polyline);
 
                             MPolyline walkPolyling = new MPolyline(lnglats);
-                            walkPolyling.LineThickness = 4;
-                            walkPolyling.LineColor = Color.FromArgb(255, 0, 0, 255);
-                            mapToiletLayer.Children.Add(walkPolyling);
-                            //amap.AddPolyline(new AMapPolylineOptions()
-                            //{
-                            //    Points = latLagsFromString(st.Polyline),
-                            //    Color = Color.FromArgb(255, 0, 0, 255),
-                            //    Width = 4,
-                            //});
+                            walkPolyling.LineThickness = 6;
+                            walkPolyling.LineColor = Colors.Green;
+                            mapWalkingLayer.Children.Add(walkPolyling);
+                            list.Add(walkPolyling);
                         }
                     }
+                    map.SetFitview(list);
                 }
             }
             catch (Exception ex)
@@ -336,19 +277,7 @@ namespace Toilet
                 Debug.WriteLine("SearchWalking:" + ex.Message);
             }
         }
-        private List<MOverlay> GetMapMarker()
-        {
-            List<MOverlay> list = new List<MOverlay>();
-            foreach (var mOverlay in mapToiletLayer.Children)
-            {
-                if (mOverlay is MMarker)
-                {
-                    list.Add(mOverlay as MMarker);
-                }
-            }
-            return list;
-        }
-
+       
         /// <summary>
         /// 经纬度字符串转成经纬度集合
         /// </summary>
@@ -362,7 +291,7 @@ namespace Toilet
             foreach (String str in arrystring)
             {
                 String[] lnglatds = str.Split(new char[] { ',' });
-                latlngs.Add(new MLngLat(Double.Parse(lnglatds[1]), Double.Parse(lnglatds[0])));
+                latlngs.Add(new MLngLat(Double.Parse(lnglatds[0]), Double.Parse(lnglatds[1])));
             }
             return latlngs;
 
@@ -393,8 +322,9 @@ namespace Toilet
                         myLoaction.LngLat = new Com.AMap.Maps.Api.BaseTypes.MLngLat(args.LngLat.longitude, args.LngLat.latitude);
                     }
                     map.Center = new Com.AMap.Maps.Api.BaseTypes.MLngLat(args.LngLat.longitude, args.LngLat.latitude);
-                    SearchKeyWordToilet(myLoaction.LngLat, 1000);
-                    // mLngLat = new Com.AMap.Maps.Api.BaseTypes.MLngLat(args.LngLat.longitude, args.LngLat.latitude);
+                   
+                    SearchKeyWordToilet(myLoaction.LngLat, 1000);//搜索，默认半径1000m
+               
                     geo.PositionChanged -= geo_PositionChanged;
                     geo.Stop();
                     geo = null;
@@ -411,7 +341,7 @@ namespace Toilet
         private void Setting_Click(object sender, System.EventArgs e)
         {
             // 在此处添加事件处理程序实现。
-            //NavigationService.Navigate(new Uri("/SettingPage.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/SettingPage.xaml", UriKind.Relative));
         }
 
         /// <summary>
@@ -425,7 +355,7 @@ namespace Toilet
             try
             {
                 mapToiletLayer.Children.Clear();
-
+                mapWalkingLayer.Children.Clear();
 
                 if (!AppConfig.IsOpenGeo)
                 {
@@ -454,55 +384,5 @@ namespace Toilet
                 Debug.WriteLine(ex.Message);
             }
         }
-
-
-
-        //protected override void OnNavigatedTo(NavigationEventArgs e)
-        //{
-        //if (!AppConfig.IsOpenGeo)
-        //{
-        //    MessageBoxResult msgResult = MessageBox.Show("需要开启定位", "运行定位", MessageBoxButton.OKCancel);
-        //    if (msgResult.Equals(MessageBoxResult.OK))
-        //    {
-        //        AppConfig.IsOpenGeo = true;//不再提示
-
-        //        geo = new AMapGeolocator();
-
-        //        geo.Start();
-        //        geo.PositionChanged += geo_PositionChanged;
-        //    }
-        //}
-        //else
-        //{
-        //    geo = new AMapGeolocator();
-
-        //    geo.Start();
-        //    geo.PositionChanged += geo_PositionChanged;
-        //}
-
-        // base.OnNavigatedTo(e);
-        //}
-
-        //void watcher_PositionChanged(object sender, Com.AMap.Maps.Api.Events.AGeoPositionChangedEventArgs e)
-        //{
-
-        //}
-
-
-        // 用于生成本地化 ApplicationBar 的示例代码
-        //private void BuildLocalizedApplicationBar()
-        //{
-        //    // 将页面的 ApplicationBar 设置为 ApplicationBar 的新实例。
-        //    ApplicationBar = new ApplicationBar();
-
-        //    // 创建新按钮并将文本值设置为 AppResources 中的本地化字符串。
-        //    ApplicationBarIconButton appBarButton = new ApplicationBarIconButton(new Uri("/Assets/AppBar/appbar.add.rest.png", UriKind.Relative));
-        //    appBarButton.Text = AppResources.AppBarButtonText;
-        //    ApplicationBar.Buttons.Add(appBarButton);
-
-        //    // 使用 AppResources 中的本地化字符串创建新菜单项。
-        //    ApplicationBarMenuItem appBarMenuItem = new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
-        //    ApplicationBar.MenuItems.Add(appBarMenuItem);
-        //}
     }
 }

@@ -210,12 +210,10 @@
 	</phone:PhoneApplicationPage.Foreground>
     
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="False">
-        	<shell:ApplicationBar.MenuItems>
-        		<shell:ApplicationBarMenuItem x:Name="Setting" Text="设置" Click="Setting_Click"/>
-        	</shell:ApplicationBar.MenuItems>
-            <shell:ApplicationBarIconButton IconUri="appbar_button.png" Text="按钮" Click="ApplicationBarIconButton_Click"/>
-            <shell:ApplicationBarIconButton IconUri="appbar_button.png" Text="按钮" Click="ApplicationBarIconButton2_Click"/>
+        <shell:ApplicationBar IsVisible="True" Mode="Minimized">
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem x:Name="Setting" Text="关于" Click="Setting_Click"/>
+            </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 
