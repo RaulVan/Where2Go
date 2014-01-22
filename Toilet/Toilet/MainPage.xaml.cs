@@ -67,6 +67,7 @@ namespace Toilet
                     {
                         AppConfig.IsOpenGeo = true;//不再提示
                         geo = new AMapGeolocator();
+                        geo.DesiredAccuracy = Windows.Devices.Geolocation.PositionAccuracy.High;
                         geo.Start();
                         geo.PositionChanged += geo_PositionChanged;
                     }
@@ -74,6 +75,7 @@ namespace Toilet
                 else
                 {
                     geo = new AMapGeolocator();
+                    geo.DesiredAccuracy = Windows.Devices.Geolocation.PositionAccuracy.High;
                     geo.Start();
                     geo.PositionChanged += geo_PositionChanged;
                 }
@@ -141,20 +143,12 @@ namespace Toilet
                     List<MOverlay> list = new List<MOverlay>();
                     foreach (AMapPOI poi in pois.POIList.ToList())
                     {
-                        //MMarker mm;
-                        //map.Children.Add(mm = new MMarker()
-                        //    {
-                        //        LngLat = new Com.AMap.Maps.Api.BaseTypes.MLngLat(poi.Location.Lon, poi.Location.Lat),
-                        //        IconURL = "/Image/AZURE.png"
-                        //    });
                         MMarker Marker;
                         mapToiletLayer.Children.Add(Marker = new MMarker()
                         {
                             LngLat = new Com.AMap.Maps.Api.BaseTypes.MLngLat(poi.Location.Lon, poi.Location.Lat),
-                            //IsEditable = true,
                             Anchor = new Point(0.5, 1),
                             IconURL = "Images/54x74.png",
-                            // TipFrameworkElement = new TolietTip(){ TolietText = poi.Name }
                             TipFrameworkElement = tip = new ToiletTip() { Text = poi.Name, MarkerAMapPOI = poi },
                         });
 
@@ -251,6 +245,7 @@ namespace Toilet
                     List<AMapPath> paths = route.Paths.ToList();
                     MLngLatCollection lnglats = new MLngLatCollection();
                     List<MOverlay> list = new List<MOverlay>();
+                    List<string> walkSteps = new List<string>();
                     foreach (AMapPath path in paths)
                     {
                         //画路线
@@ -258,8 +253,7 @@ namespace Toilet
                         foreach (AMapStep st in steps)
                         {
                             Debug.WriteLine(st.Instruction);
-                            Debug.WriteLine(st.Road);
-                            Debug.WriteLine(st.Assistant_action);
+                            walkSteps.Add(st.Instruction);
                             lnglats = latLagsFromString(st.Polyline);
 
                             MPolyline walkPolyling = new MPolyline(lnglats);
@@ -270,6 +264,8 @@ namespace Toilet
                         }
                     }
                     map.SetFitview(list);
+
+                    //TODO: tip walkSteps 
                 }
             }
             catch (Exception ex)
@@ -365,7 +361,7 @@ namespace Toilet
                         AppConfig.IsOpenGeo = true;//不再提示
 
                         geo = new AMapGeolocator();
-
+                        geo.DesiredAccuracy = Windows.Devices.Geolocation.PositionAccuracy.High;
                         geo.Start();
                         geo.PositionChanged += geo_PositionChanged;
                     }
@@ -373,7 +369,7 @@ namespace Toilet
                 else
                 {
                     geo = new AMapGeolocator();
-
+                    geo.DesiredAccuracy = Windows.Devices.Geolocation.PositionAccuracy.High;
                     geo.Start();
                     geo.PositionChanged += geo_PositionChanged;
                 }
