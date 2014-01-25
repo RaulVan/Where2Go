@@ -6,9 +6,11 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+   xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
+    
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True">
@@ -22,15 +24,26 @@
 
         <!--TitlePanel 包含应用程序的名称和页标题-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="关于" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <TextBlock Text="Where2Go" Margin="9,-7,0,0" Style="{StaticResource  PhoneTextTitle2Style}"/>
         </StackPanel>
 
         <!--ContentPanel - 在此处放置其他内容-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-         
-                <Grid>
-                    <StackPanel Orientation="Vertical">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <StackPanel>
+                    <TextBlock Text="定位服务" Style="{StaticResource PanoramaItemHeaderTextStyle}"/>
                     
+                    <toolkit:ToggleSwitch x:Name="togLocaOffandOn"/>
+                </StackPanel>
+            </Grid>
+                <Grid Grid.Row="1">
+                    <StackPanel Orientation="Vertical">
+                    <TextBlock Text="关于" Style="{StaticResource PanoramaItemHeaderTextStyle}"/>
                         <TextBlock/>
                         <TextBlock  TextWrapping="Wrap" >
                     			<Span/>
@@ -42,6 +55,7 @@
                     			<Run Text="vanraul@outlook.com (点我)"/>
                         </TextBlock>
                     <TextBlock><Run>感谢使用</Run></TextBlock>
+                    <HyperlinkButton Content="隐私策略" x:Name="hyBtnPrivacy" Margin="0,20,0,0"  HorizontalAlignment="Left" Click="hyBtnPrivacy_Click"/>
                 </StackPanel>
                 </Grid>
         </Grid>

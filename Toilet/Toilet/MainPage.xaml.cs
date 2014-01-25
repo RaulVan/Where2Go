@@ -62,7 +62,7 @@ namespace Toilet
             {
                 if (!AppConfig.IsOpenGeo)
                 {
-                    MessageBoxResult msgResult = MessageBox.Show("需要开启定位", "运行定位", MessageBoxButton.OKCancel);
+                    MessageBoxResult msgResult = MessageBox.Show("是否开启定位", "运行定位", MessageBoxButton.OKCancel);
                     if (msgResult.Equals(MessageBoxResult.OK))
                     {
                         AppConfig.IsOpenGeo = true;//不再提示
@@ -70,6 +70,10 @@ namespace Toilet
                         geo.DesiredAccuracy = Windows.Devices.Geolocation.PositionAccuracy.High;
                         geo.Start();
                         geo.PositionChanged += geo_PositionChanged;
+                    }
+                    else
+                    {
+                        return;
                     }
                 }
                 else
@@ -355,7 +359,7 @@ namespace Toilet
 
                 if (!AppConfig.IsOpenGeo)
                 {
-                    MessageBoxResult msgResult = MessageBox.Show("需要开启定位", "运行定位", MessageBoxButton.OKCancel);
+                    MessageBoxResult msgResult = MessageBox.Show("是否开启定位", "运行定位", MessageBoxButton.OKCancel);
                     if (msgResult.Equals(MessageBoxResult.OK))
                     {
                         AppConfig.IsOpenGeo = true;//不再提示

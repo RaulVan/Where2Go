@@ -212,7 +212,7 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" Mode="Minimized">
             <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem x:Name="Setting" Text="关于" Click="Setting_Click"/>
+                <shell:ApplicationBarMenuItem x:Name="Setting" Text="设置与关于" Click="Setting_Click"/>
             </shell:ApplicationBar.MenuItems>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
