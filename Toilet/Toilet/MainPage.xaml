@@ -10,19 +10,19 @@
     mc:Ignorable="d"
     SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="false">
-	<phone:PhoneApplicationPage.Resources>
-		<Style x:Key="btnLoactionStyle" TargetType="Button">
-			<Setter Property="Background" Value="Transparent"/>
-			<Setter Property="BorderBrush" Value="{StaticResource PhoneForegroundBrush}"/>
-			<Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
-			<Setter Property="BorderThickness" Value="{StaticResource PhoneBorderThickness}"/>
-			<Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilySemiBold}"/>
-			<Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMedium}"/>
-			<Setter Property="Padding" Value="10,5,10,6"/>
-			<Setter Property="Template">
-				<Setter.Value>
-					<ControlTemplate TargetType="Button">
-						<!--<Grid Background="Transparent">
+    <phone:PhoneApplicationPage.Resources>
+        <Style x:Key="btnLoactionStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{StaticResource PhoneForegroundBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
+            <Setter Property="BorderThickness" Value="{StaticResource PhoneBorderThickness}"/>
+            <Setter Property="FontFamily" Value="{StaticResource PhoneFontFamilySemiBold}"/>
+            <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeMedium}"/>
+            <Setter Property="Padding" Value="10,5,10,6"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <!--<Grid Background="Transparent">
 							<VisualStateManager.VisualStateGroups>
 								<VisualStateGroup x:Name="CommonStates">
 									<VisualState x:Name="Normal"/>
@@ -57,60 +57,60 @@
 								<ContentControl x:Name="ContentContainer" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
 							</Border>
 						</Grid>-->
-						<Grid>
-							<VisualStateManager.VisualStateGroups>
-								<VisualStateGroup x:Name="CommonStates" ec:ExtendedVisualStateManager.UseFluidLayout="True">
-									<VisualState x:Name="Pressed">
-										<Storyboard>
-											<ColorAnimation Duration="0" To="#FF46414B" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="Stroke" d:IsOptimized="True"/>
-											<ColorAnimation Duration="0" To="#FF5020A4" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="path" d:IsOptimized="True"/>
-										</Storyboard>
-									</VisualState>
-									<VisualState x:Name="Normal">
-										<Storyboard>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="ellipse">
-												<DiscreteObjectKeyFrame KeyTime="0">
-													<DiscreteObjectKeyFrame.Value>
-														<Visibility>Collapsed</Visibility>
-													</DiscreteObjectKeyFrame.Value>
-												</DiscreteObjectKeyFrame>
-											</ObjectAnimationUsingKeyFrames>
-										</Storyboard>
-									</VisualState>
-									<VisualState x:Name="Disabled">
-										<Storyboard>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="ellipse">
-												<DiscreteObjectKeyFrame KeyTime="0">
-													<DiscreteObjectKeyFrame.Value>
-														<Visibility>Collapsed</Visibility>
-													</DiscreteObjectKeyFrame.Value>
-												</DiscreteObjectKeyFrame>
-											</ObjectAnimationUsingKeyFrames>
-										</Storyboard>
-									</VisualState>
-									<VisualState x:Name="MouseOver"/>
-								</VisualStateGroup>
-							</VisualStateManager.VisualStateGroups>
-							<VisualStateManager.CustomVisualStateManager>
-								<ec:ExtendedVisualStateManager/>
-							</VisualStateManager.CustomVisualStateManager>
-							<Grid x:Name="backgroundGrid" Width="48" Height="48" Visibility="Visible">
-								<Ellipse x:Name="ellipse" Fill="#FF867F8F" Height="48" Width="48"/>
-								<Path Data="M50.5,4.7500001C25.232973,4.75 4.75,25.232973 4.7500001,50.5 4.75,75.767029 25.232973,96.25 50.5,96.25 75.767029,96.25 96.25,75.767029 96.25,50.5 96.25,25.232973 75.767029,4.75 50.5,4.7500001z M50.5,0C78.390381,0 101,22.609621 101,50.5 101,78.390381 78.390381,101 50.5,101 22.609621,101 0,78.390381 0,50.5 0,22.609621 22.609621,0 50.5,0z" Stretch="Fill" Fill="#FF867F8F" x:Name="Stroke" Visibility="Visible" />
-							</Grid>
-							<Path x:Name="path" Data="M-1803.39,-939.073C-1813.86,-939.073 -1822.34,-930.589 -1822.34,-920.126 -1822.34,-916.45 -1821.29,-913.022 -1819.48,-910.119L-1811.54,-893.476 -1803.39,-876.405 -1795.25,-893.476 -1787.31,-910.115C-1785.49,-913.021 -1784.45,-916.449 -1784.45,-920.126 -1784.45,-930.589 -1792.93,-939.073 -1803.39,-939.073 M-1803.39,-909.656C-1808.8,-909.656 -1813.18,-914.039 -1813.18,-919.448 -1813.18,-924.854 -1808.8,-929.24 -1803.39,-929.24 -1797.98,-929.24 -1793.6,-924.854 -1793.6,-919.448 -1793.6,-914.039 -1797.98,-909.656 -1803.39,-909.656" Stretch="Uniform" Fill="#FF9066DA" Width="26" Height="26" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
-								<Path.RenderTransform>
-									<TransformGroup>
-										<RotateTransform Angle="0" />
-										<ScaleTransform ScaleX="1" ScaleY="1" />
-									</TransformGroup>
-								</Path.RenderTransform>
-							</Path>
-						</Grid>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
+                        <Grid>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates" ec:ExtendedVisualStateManager.UseFluidLayout="True">
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0" To="#FF46414B" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="Stroke" d:IsOptimized="True"/>
+                                            <ColorAnimation Duration="0" To="#FF5020A4" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="path" d:IsOptimized="True"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="ellipse">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Collapsed</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="ellipse">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Collapsed</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="MouseOver"/>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <VisualStateManager.CustomVisualStateManager>
+                                <ec:ExtendedVisualStateManager/>
+                            </VisualStateManager.CustomVisualStateManager>
+                            <Grid x:Name="backgroundGrid" Width="48" Height="48" Visibility="Visible">
+                                <Ellipse x:Name="ellipse" Fill="#FF867F8F" Height="48" Width="48"/>
+                                <Path Data="M50.5,4.7500001C25.232973,4.75 4.75,25.232973 4.7500001,50.5 4.75,75.767029 25.232973,96.25 50.5,96.25 75.767029,96.25 96.25,75.767029 96.25,50.5 96.25,25.232973 75.767029,4.75 50.5,4.7500001z M50.5,0C78.390381,0 101,22.609621 101,50.5 101,78.390381 78.390381,101 50.5,101 22.609621,101 0,78.390381 0,50.5 0,22.609621 22.609621,0 50.5,0z" Stretch="Fill" Fill="#FF867F8F" x:Name="Stroke" Visibility="Visible" />
+                            </Grid>
+                            <Path x:Name="path" Data="M-1803.39,-939.073C-1813.86,-939.073 -1822.34,-930.589 -1822.34,-920.126 -1822.34,-916.45 -1821.29,-913.022 -1819.48,-910.119L-1811.54,-893.476 -1803.39,-876.405 -1795.25,-893.476 -1787.31,-910.115C-1785.49,-913.021 -1784.45,-916.449 -1784.45,-920.126 -1784.45,-930.589 -1792.93,-939.073 -1803.39,-939.073 M-1803.39,-909.656C-1808.8,-909.656 -1813.18,-914.039 -1813.18,-919.448 -1813.18,-924.854 -1808.8,-929.24 -1803.39,-929.24 -1797.98,-929.24 -1793.6,-924.854 -1793.6,-919.448 -1793.6,-914.039 -1797.98,-909.656 -1803.39,-909.656" Stretch="Uniform" Fill="#FF9066DA" Width="26" Height="26" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+                                <Path.RenderTransform>
+                                    <TransformGroup>
+                                        <RotateTransform Angle="0" />
+                                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                                    </TransformGroup>
+                                </Path.RenderTransform>
+                            </Path>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style x:Key="btnNaviStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderBrush" Value="{StaticResource PhoneForegroundBrush}"/>
@@ -123,7 +123,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
 
-                        <Grid Width="48" Height="48">
+                        <Grid Width="60" Height="60">
                             <Grid.Resources>
                                 <Storyboard x:Name="Storyboard1"/>
                             </Grid.Resources>
@@ -146,28 +146,28 @@
                                 <VisualStateGroup x:Name="CommonStates">
                                     <VisualState x:Name="Pressed">
                                         <Storyboard>
-                                    		<DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.LocalOffsetX)" Storyboard.TargetName="Stroke" d:IsOptimized="True"/>
-                                    		<DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.LocalOffsetX)" Storyboard.TargetName="path" d:IsOptimized="True"/>
-                                    		<DoubleAnimation Duration="0" To="2" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.GlobalOffsetX)" Storyboard.TargetName="path" d:IsOptimized="True"/>
-                                    		<DoubleAnimation Duration="0" To="2" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.GlobalOffsetX)" Storyboard.TargetName="Stroke" d:IsOptimized="True"/>
-                                    		<ColorAnimation Duration="0" To="#FFF9F9F9" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="Stroke" d:IsOptimized="True"/>
-                                    		<ColorAnimation Duration="0" To="#FF55CAF5" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="path" d:IsOptimized="True"/>
-                                    		<DoubleAnimation Duration="0" To="2" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.GlobalOffsetX)" Storyboard.TargetName="ellipse" d:IsOptimized="True"/>
-                                    		<DoubleAnimation Duration="0" To="0.48" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="ellipse" d:IsOptimized="True"/>
-                                    	</Storyboard>
+                                            <DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.LocalOffsetX)" Storyboard.TargetName="Stroke" d:IsOptimized="True"/>
+                                            <DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.LocalOffsetX)" Storyboard.TargetName="path" d:IsOptimized="True"/>
+                                            <DoubleAnimation Duration="0" To="2" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.GlobalOffsetX)" Storyboard.TargetName="path" d:IsOptimized="True"/>
+                                            <DoubleAnimation Duration="0" To="2" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.GlobalOffsetX)" Storyboard.TargetName="Stroke" d:IsOptimized="True"/>
+                                            <ColorAnimation Duration="0" To="#FFF9F9F9" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="Stroke" d:IsOptimized="True"/>
+                                            <ColorAnimation Duration="0" To="#FF55CAF5" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="path" d:IsOptimized="True"/>
+                                            <DoubleAnimation Duration="0" To="2" Storyboard.TargetProperty="(UIElement.Projection).(PlaneProjection.GlobalOffsetX)" Storyboard.TargetName="ellipse" d:IsOptimized="True"/>
+                                            <DoubleAnimation Duration="0" To="0.48" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="ellipse" d:IsOptimized="True"/>
+                                        </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="Normal"/>
                                     <VisualState x:Name="Disabled"/>
                                     <VisualState x:Name="MouseOver"/>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            <Grid x:Name="backgroundGrid" Width="48" Height="48" Visibility="Visible">
-                                <Ellipse x:Name="ellipse" Fill="#FFBFBFBF" HorizontalAlignment="Left" Height="44" Margin="2,2,0,0" VerticalAlignment="Top" Width="44" Opacity="0.045">
+                            <Grid x:Name="backgroundGrid" Width="60" Height="60" Visibility="Visible">
+                                <Ellipse x:Name="ellipse" Fill="#FFBFBFBF" HorizontalAlignment="Left" Height="54" Margin="2,2,0,0" VerticalAlignment="Top" Width="54" Opacity="0.045">
                                     <Ellipse.Projection>
                                         <PlaneProjection/>
                                     </Ellipse.Projection>
                                 </Ellipse>
-                                <Path Data="M50.5,4.7500001C25.232973,4.75 4.75,25.232973 4.7500001,50.5 4.75,75.767029 25.232973,96.25 50.5,96.25 75.767029,96.25 96.25,75.767029 96.25,50.5 96.25,25.232973 75.767029,4.75 50.5,4.7500001z M50.5,0C78.390381,0 101,22.609621 101,50.5 101,78.390381 78.390381,101 50.5,101 22.609621,101 0,78.390381 0,50.5 0,22.609621 22.609621,0 50.5,0z" Stretch="Fill" Fill="#FF867F8F" x:Name="Stroke" Visibility="Visible" UseLayoutRounding="False" Margin="2" Width="44" Height="44" >
+                                <Path Data="M50.5,4.7500001C25.232973,4.75 4.75,25.232973 4.7500001,50.5 4.75,75.767029 25.232973,96.25 50.5,96.25 75.767029,96.25 96.25,75.767029 96.25,50.5 96.25,25.232973 75.767029,4.75 50.5,4.7500001z M50.5,0C78.390381,0 101,22.609621 101,50.5 101,78.390381 78.390381,101 50.5,101 22.609621,101 0,78.390381 0,50.5 0,22.609621 22.609621,0 50.5,0z" Stretch="Fill" Fill="#FF867F8F" x:Name="Stroke" Visibility="Visible" UseLayoutRounding="False" Margin="2" Width="54" Height="54" >
                                     <Path.Projection>
                                         <PlaneProjection/>
                                     </Path.Projection>
@@ -184,7 +184,7 @@
                             </Path>-->
                             <Path x:Name="path" 
                                   Data="M-1803.39,-939.073C-1813.86,-939.073 -1822.34,-930.589 -1822.34,-920.126 -1822.34,-916.45 -1821.29,-913.022 -1819.48,-910.119L-1811.54,-893.476 -1803.39,-876.405 -1795.25,-893.476 -1787.31,-910.115C-1785.49,-913.021 -1784.45,-916.449 -1784.45,-920.126 -1784.45,-930.589 -1792.93,-939.073 -1803.39,-939.073 M-1803.39,-909.656C-1808.8,-909.656 -1813.18,-914.039 -1813.18,-919.448 -1813.18,-924.854 -1808.8,-929.24 -1803.39,-929.24 -1797.98,-929.24 -1793.6,-924.854 -1793.6,-919.448 -1793.6,-914.039 -1797.98,-909.656 -1803.39,-909.656" 
-                                  Stretch="Uniform" Fill="#FF5A04F1" Width="26" Height="26" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False">
+                                  Stretch="Uniform" Fill="#FF5A04F1" Width="36" Height="36" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False">
                                 <Path.Projection>
                                     <PlaneProjection/>
                                 </Path.Projection>
@@ -198,17 +198,17 @@
             </Setter>
         </Style>
     </phone:PhoneApplicationPage.Resources>
-   
+
     <phone:PhoneApplicationPage.FontFamily>
-		<StaticResource ResourceKey="PhoneFontFamilyNormal"/>
-	</phone:PhoneApplicationPage.FontFamily>
-	<phone:PhoneApplicationPage.FontSize>
-		<StaticResource ResourceKey="PhoneFontSizeNormal"/>
-	</phone:PhoneApplicationPage.FontSize>
-	<phone:PhoneApplicationPage.Foreground>
-		<StaticResource ResourceKey="PhoneForegroundBrush"/>
-	</phone:PhoneApplicationPage.Foreground>
-    
+        <StaticResource ResourceKey="PhoneFontFamilyNormal"/>
+    </phone:PhoneApplicationPage.FontFamily>
+    <phone:PhoneApplicationPage.FontSize>
+        <StaticResource ResourceKey="PhoneFontSizeNormal"/>
+    </phone:PhoneApplicationPage.FontSize>
+    <phone:PhoneApplicationPage.Foreground>
+        <StaticResource ResourceKey="PhoneForegroundBrush"/>
+    </phone:PhoneApplicationPage.Foreground>
+
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" Mode="Minimized">
             <shell:ApplicationBar.MenuItems>
@@ -218,13 +218,35 @@
     </phone:PhoneApplicationPage.ApplicationBar>
 
     <!--LayoutRoot 是包含所有页面内容的根网格-->
-	<Grid x:Name="LayoutRoot" Background="Transparent">
-		<!--<Grid.RowDefinitions>
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <StackPanel Orientation="Vertical">
+            <Grid x:Name="ContentPanel" Margin="0,0,0,0" Height="728">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="100"/>
+                </Grid.RowDefinitions>
+
+                <!--<Button Canvas.ZIndex="100" Canvas.Left="20" Grid.Column="1" Grid.Row="1"   x:Name="btnLoaction"  HorizontalAlignment="Left"  VerticalAlignment="Top"  Style="{StaticResource btnLoactionStyle}" Click="btnLoaction_Click"/>-->
+                <Button Canvas.ZIndex="100" Canvas.Left="20" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Top"  Content="导航" x:Name="btnLoaction" RenderTransformOrigin="0.5,0.5" Style="{StaticResource btnNaviStyle}" Width="60"  Click="btnLoaction_Click" />
+
+                <Grid x:Name="mapPanel" Grid.ColumnSpan="3" Grid.RowSpan="2"/>
+            </Grid>
+
+            <Grid x:Name="gridNavigation">
+                
+            </Grid>
+        </StackPanel>
+        <!--<Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>-->
 
-		<!-- 本地化说明:
+        <!-- 本地化说明:
             若要本地化显示的字符串，请将其值复制到应用程序的非特定语言资源文件(AppResources.resx)
             中的适当命名的键，然后
             将属性的引号之间的硬编码文本值
@@ -243,37 +265,22 @@
             提取属性的值。
          -->
 
-		<!--TitlePanel 包含应用程序的名称和页标题-->
-		<!--<StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
+        <!--TitlePanel 包含应用程序的名称和页标题-->
+        <!--<StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
             <TextBlock Text="我的应用程序" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0"/>
             <TextBlock Text="页面名称" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
         </StackPanel>-->
 
-		<!--取消注释，以显示对齐网格，从而帮助确保
+        <!--取消注释，以显示对齐网格，从而帮助确保
             控件在公用边界上对齐。图像在系统栏中显示时的
             上边距为 -32px。如果隐藏了系统栏，则将此值设为 0
             (或完全删除边距)。
 
             在发送之前删除此 XAML 和图像本身。-->
-		<!--<Image Source="/Assets/AlignmentGrid.png" VerticalAlignment="Top" Height="800" Width="480" Margin="0,-32,0,0" Grid.Row="0" Grid.RowSpan="2" IsHitTestVisible="False" />-->
-    <!--ContentPanel - 在此处放置其他内容-->
-		<Grid x:Name="ContentPanel" Margin="0,0,0,0">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="12"/>
-				<ColumnDefinition Width="50"/>
-				<ColumnDefinition Width="*"/>
-			</Grid.ColumnDefinitions>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="*"/>
-				<RowDefinition Height="150"/>
-			</Grid.RowDefinitions>
-            
-			<!--<Button Canvas.ZIndex="100" Canvas.Left="20" Grid.Column="1" Grid.Row="1"   x:Name="btnLoaction"  HorizontalAlignment="Left"  VerticalAlignment="Top"  Style="{StaticResource btnLoactionStyle}" Click="btnLoaction_Click"/>-->
-            <Button Canvas.ZIndex="100" Canvas.Left="20" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Top"  Content="导航" x:Name="btnLoaction" RenderTransformOrigin="0.5,0.5" Style="{StaticResource btnNaviStyle}" Width="48"  Click="btnLoaction_Click" />
-           
-			<Grid x:Name="mapPanel" Grid.ColumnSpan="3" Grid.RowSpan="2"/>
-		</Grid>
+        <!--<Image Source="/Assets/AlignmentGrid.png" VerticalAlignment="Top" Height="800" Width="480" Margin="0,-32,0,0" Grid.Row="0" Grid.RowSpan="2" IsHitTestVisible="False" />-->
+        <!--ContentPanel - 在此处放置其他内容-->
 
-	</Grid>
+
+    </Grid>
 
 </phone:PhoneApplicationPage>

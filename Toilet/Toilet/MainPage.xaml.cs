@@ -142,7 +142,7 @@ namespace Toilet
                     }
                     if (pois.POIList == null)
                     {
-
+                        
                     }
                     List<MOverlay> list = new List<MOverlay>();
                     foreach (AMapPOI poi in pois.POIList.ToList())
@@ -159,6 +159,8 @@ namespace Toilet
                         tip.TapNavigation += tip_TapNavigation;
                         list.Add(Marker);
                         Debug.WriteLine(poi.Name.ToString());
+                        //TODO:gridNavigation
+
                     }
                     map.SetFitview(list);
 
