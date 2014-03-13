@@ -9,6 +9,10 @@ namespace Toilet
 {
    public static class AppConfig
     {
+       public static string AppKey = "5321d66856240b031503e8ff";
+
+       public static string DebugAppKey = "5313e59056240b7a8a1ab50e";
+
        /// <summary>
        /// 是否开启定位
        /// </summary>

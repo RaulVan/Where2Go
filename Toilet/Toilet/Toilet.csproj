@@ -171,6 +171,9 @@
     <Content Include="Images\AZURE.png" />
     <Content Include="Images\location_on.png" />
     <Content Include="Images\marker.png" />
+    <Content Include="Lib\Com.MSN.Ads.WindowsPhone.dll" />
+    <Content Include="Lib\UmengAnalyticsWP8.dll" />
+    <Content Include="Lib\UmengSocialWP.dll" />
     <Content Include="README_FIRST.txt" />
     <Content Include="Toolkit.Content\ApplicationBar.Add.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
@@ -205,6 +208,7 @@
       <HintPath>..\packages\WPtoolkit.4.2013.08.16\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Interactivity" />
+    <Reference Include="UmengAnalyticsWP8, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Maps.png" />

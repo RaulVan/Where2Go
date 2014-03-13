@@ -7,6 +7,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Toilet.Resources;
+using UmengSDK;
 
 namespace Toilet
 {
@@ -34,6 +35,13 @@ namespace Toilet
 
             // 语言显示初始化
             InitializeLanguage();
+
+#if DEBUG
+            UmengAnalytics.Init(AppConfig.DebugAppKey, "Marketplace");
+#else
+            UmengAnalytics.Init(AppConfig.AppKey, "Marketplace");
+
+#endif
 
             // 调试时显示图形分析信息。
             if (Debugger.IsAttached)

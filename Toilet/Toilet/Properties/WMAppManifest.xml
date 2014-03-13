@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="zh-CN" />
-  <App xmlns="" ProductID="{c77cac1b-4a63-48d7-8b07-c0340dcd6810}" Title="Where2Go" RuntimeType="Silverlight" Version="0.7.0.0" Genre="apps.normal" Author="Eleven Van" Description="寻找公共厕所，解决在外上厕所麻烦的问题。" Publisher="Eleven Van" PublisherID="{100d4b69-ee97-4cba-8e59-15509f0050c9}">
+  <App xmlns="" ProductID="{c77cac1b-4a63-48d7-8b07-c0340dcd6810}" Title="找厕所" RuntimeType="Silverlight" Version="0.7.1.4" Genre="apps.normal" Author="Eleven Van" Description="寻找公共厕所，解决在外上厕所麻烦的问题。" Publisher="Eleven Van" PublisherID="{100d4b69-ee97-4cba-8e59-15509f0050c9}">
     <IconPath IsRelative="true" IsResource="false">Assets\100x100.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
@@ -22,8 +22,7 @@
           <SmallImageURI IsRelative="true" IsResource="false">Assets\Tiles\159x159.png</SmallImageURI>
           <Count>0</Count>
           <BackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\336x336.png</BackgroundImageURI>
-          <Title>
-          </Title>
+          <Title>Toilet</Title>
           <BackContent>
           </BackContent>
           <BackBackgroundImageURI IsRelative="true" IsResource="false">
