@@ -99,7 +99,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="AppConfig.cs" />
+    <Compile Include="CloudMapAPI\CloudMap.cs" />
     <Compile Include="CloudMapAPI\CloudMapConfig.cs" />
+    <Compile Include="CloudMapAPI\CloudOptions.cs" />
     <Compile Include="CloudMapAPI\HttpConnect.cs" />
     <Compile Include="Control\TapNavigationEventArgs.cs" />
     <Compile Include="Control\ToiletTip.xaml.cs">

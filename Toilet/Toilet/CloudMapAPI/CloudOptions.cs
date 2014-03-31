@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Toilet.CloudMapAPI
+{
+    public class CloudOptions
+    {
+        public string Id;
+
+        public string TableId;
+        //public string 
+        public string Datas;
+    }
+}
